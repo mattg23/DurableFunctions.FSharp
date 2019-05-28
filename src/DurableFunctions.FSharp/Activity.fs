@@ -47,16 +47,16 @@ module Activity =
 
     /// Call an activity by name, passing an object as its input argument
     /// and specifying the type to expect for the activity output.
-    let callByName<'a> (name: string) arg (c: DurableOrchestrationContext) =
+    let callByName<'a> (name: string) arg (c: IDurableOrchestrationContext) =
         c.CallActivityAsync<'a> (name, arg)
 
     /// Call the activity with given input parameter and return its result.
-    let call (activity: Activity<'a, 'b>) (arg: 'a) (c: DurableOrchestrationContext) =
+    let call (activity: Activity<'a, 'b>) (arg: 'a) (c: IDurableOrchestrationContext) =
         c.CallActivityAsync<'b> (activity.name, arg)
 
     /// Call the activity with given input parameter and return its result. Apply retry
     /// policy in case of call failure(s).
-    let callWithRetries (policy: RetryPolicy) (activity: Activity<'a, 'b>) (arg: 'a) (c: DurableOrchestrationContext) =
+    let callWithRetries (policy: RetryPolicy) (activity: Activity<'a, 'b>) (arg: 'a) (c: IDurableOrchestrationContext) =
         let options = 
             match policy with
             | ExponentialBackOff e -> 
